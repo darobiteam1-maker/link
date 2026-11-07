@@ -436,12 +436,16 @@ p {
   ♫
 </button>
 
+  <audio id="bgMusic" loop>
+  <source src="https://darobiteam1-maker.github.io/link/music.mp3" type="audio/mpeg">
+  </audio>
+
   <div id="loadingScreen">
   <h1>✨</h1>
   <h2>Preparing something special...</h2>
   <p id="loadingCount">5</p>
   </div>
-
+  
 <main class="pages">
 
   <!-- HALAMAN 1 -->
@@ -550,21 +554,18 @@ p {
         dan hal-hal indah.
       </p>
 
-      <p>
-        Semoga langkahmu ke depan selalu dipenuhi
-        keberuntungan, kesehatan, dan kesempatan
-        untuk meraih semua impianmu.
-      </p>
+      <p>Semoga panjng umur dan sehat selalu.</p>
 
       <p>
-        Tetap jadi dirimu sendiri, karena setiap
-        orang punya keistimewaannya masing-masing.
+        
       </p>
 
       <p>
         Terima kasih sudah menjadi seseorang
         yang membuat dunia terasa sedikit lebih indah.
       </p>
+
+      josjis
 
       <p class="signature">
         With warm wishes, ✨
@@ -738,6 +739,13 @@ function openGift(){
 
   giftOpened = true;
 
+  bgMusic.play().then(() => {
+  musicPlaying = true;
+  document.getElementById("musicBtn").textContent = "♫";
+}).catch(() => {
+  console.log("Musik menunggu interaksi pengunjung.");
+});
+
   const gift = document.getElementById("gift");
 
   gift.classList.add("open");
@@ -786,11 +794,59 @@ function toggleCandle(){
 }
 
 
+
+
+function playConfettiSound() {
+
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) return;
+
+  const audio = new AudioContextClass();
+
+  const notes = [
+    { freq: 523.25, time: 0, duration: 0.3 },
+    { freq: 659.25, time: 0.3, duration: 0.3 },
+    { freq: 783.99, time: 0.6, duration: 0.4 },
+    { freq: 1046.50, time: 1.0, duration: 0.7 }
+  ];
+
+  notes.forEach(note => {
+
+    const osc = audio.createOscillator();
+    const gain = audio.createGain();
+
+    // Karakter suara seperti brass/trompet
+    osc.type = "sawtooth";
+    osc.frequency.value = note.freq;
+
+    const start = audio.currentTime + note.time;
+    const end = start + note.duration;
+
+    gain.gain.setValueAtTime(0.001, start);
+    gain.gain.linearRampToValueAtTime(0.12, start + 0.05);
+    gain.gain.setValueAtTime(0.10, end - 0.08);
+    gain.gain.linearRampToValueAtTime(0.001, end);
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    osc.start(start);
+    osc.stop(end);
+
+  });
+
+  setTimeout(() => audio.close(), 2500);
+}
+
 /* ==========================
    5. EFEK CONFETTI
 ========================== */
 
 function celebrate(){
+
+  playConfettiSound();
 
   const colors = [
     "#a8d8ff",
@@ -887,43 +943,36 @@ function playNote(){
 
 async function toggleMusic(){
 
+  const bgMusic = document.getElementById("bgMusic");
+
+let musicPlaying = false;
+
+async function toggleMusic() {
+
   const button = document.getElementById("musicBtn");
 
-  if(!audioContext){
+  if (!musicPlaying) {
 
-    const AudioContextClass =
-      window.AudioContext || window.webkitAudioContext;
+    try {
+      await bgMusic.play();
 
-    if(!AudioContextClass){
-      alert("Browser ini belum mendukung musik.");
-      return;
+      musicPlaying = true;
+      button.textContent = "♫";
+
+    } catch (error) {
+      alert("Musik belum bisa diputar.");
     }
-
-    audioContext = new AudioContextClass();
-
-  }
-
-  if(audioContext.state === "suspended"){
-    await audioContext.resume();
-  }
-
-  musicPlaying = !musicPlaying;
-
-  if(musicPlaying){
-
-    button.textContent = "♫";
-
-    playNote();
-
-    musicTimer = setInterval(playNote,650);
 
   } else {
 
+    bgMusic.pause();
+
+    musicPlaying = false;
     button.textContent = "♪";
 
-    clearInterval(musicTimer);
-
   }
+
+    }
 
 }
 
