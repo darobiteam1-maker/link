@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alasan</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --pink: #ff4cae;
+    --light: #ffc2e6;
+    --dark: #100611;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 48%,
+        #200b22 0%,
+        #100611 48%,
+        #050208 100%);
+    font-family: monospace;
+}
+
+/* BACKGROUND */
+
+.background-glow {
+    position: absolute;
+    width: 75vw;
+    height: 75vw;
+    max-width: 550px;
+    max-height: 550px;
+    background: #ff168e;
+    opacity: .045;
+    filter: blur(100px);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.button-group button {
+    padding: 13px 28px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+#yesButton {
+    background: #ff168e;
+    color: white;
+    border: 1px solid #ff8acb;
+    box-shadow: 0 0 15px #ff168e;
+}
+
+#yesButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #ff168e;
+}
+
+#noButton {
+    background: transparent;
+    color: #ff9bd9;
+    border: 1px solid #ff75bd;
+}
+
+#noButton:hover {
+    background: #36102c;
+}
+
+#response {
+    color: #ff9bd9;
+    margin-top: 20px;
+    font-size: 13px;
+    min-height: 20px;
+}
+
+/* MAIN */
+
+.scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heart-wrap {
+    width: min(88vw, 440px);
+    aspect-ratio: 500 / 440;
+    transform-origin: center;
+    animation: heartbeat 10s ease-in-out infinite;
+}
+
+  .heart-photo {
+    opacity: 0;
+    animation: photoReveal 10s ease-in-out infinite;
+}
+
+@keyframes photoReveal {
+    0%, 42% {
+        opacity: 0;
+    }
+
+    48% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    91%, 100% {
+        opacity: 0;
+    }
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* HEART PATH */
+
+.heart-path {
+    fill: none;
+    stroke: var(--pink);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+
+    filter: url(#glow);
+
+    animation: drawHeart 10s cubic-bezier(.45,0,.25,1) infinite;
+}
+
+/* LIGHT TRAIL */
+
+.heart-trail {
+    fill: none;
+    stroke: #ffb5e3;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    filter: url(#strongGlow);
+
+    animation: drawHeart 10s cubic-bezier(.45,0,.25,1) infinite;
+}
+
+/* TEXT FOLLOWING HEART */
+
+.heart-text {
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    fill: #ff9cda;
+    filter: url(#glow);
+
+    opacity: 0;
+    animation: showHeartText 10s ease-in-out infinite;
+}
+
+.heart-text-shadow {
+    fill: #ff168e;
+    opacity: 0;
+    filter: url(#glow);
+    animation: showHeartText 10s ease-in-out infinite;
+}
+
+/* DRAW ANIMATION */
+
+@keyframes drawHeart {
+
+    0%, 4% {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    43% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    83% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    92%, 100% {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+}
+
+/* TEXT APPEARS AFTER HEART IS COMPLETE */
+
+@keyframes showHeartText {
+
+    0%, 40% {
+        opacity: 0;
+    }
+
+    48% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    91%, 100% {
+        opacity: 0;
+    }
+}
+
+/* HEARTBEAT */
+
+@keyframes heartbeat {
+
+    0%, 43%, 85%, 100% {
+        transform: scale(1);
+    }
+
+    52% {
+        transform: scale(1.035);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+
+    68% {
+        transform: scale(1.045);
+    }
+
+    76% {
+        transform: scale(1);
+    }
+}
+
+
+
+/* BOTTOM TEXT */
+
+.bottom-text {
+    position: absolute;
+    bottom: 9%;
+    width: 100%;
+    text-align: center;
+
+    color: #ff9bd9;
+    font-size: clamp(13px, 4vw, 19px);
+    letter-spacing: clamp(4px, 1.5vw, 8px);
+
+    text-shadow:
+        0 0 5px #ff168e,
+        0 0 12px #ff168e,
+        0 0 30px #ff168e;
+
+    opacity: 0;
+
+    animation: bottomAppear 10s ease-in-out infinite;
+}
+
+@keyframes bottomAppear {
+
+    0%, 43% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    51% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    91%, 100% {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+/* PARTICLES */
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: #ff6dbf;
+
+    box-shadow:
+        0 0 6px #ff168e,
+        0 0 15px #ff168e;
+
+    pointer-events: none;
+
+    animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+
+    0% {
+        transform: translate3d(0, 30px, 0) scale(.5);
+        opacity: 0;
+    }
+
+    25% {
+        opacity: .8;
+    }
+
+    65% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate3d(10px, -100px, 0) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* MOBILE */
+
+@media (max-height: 650px) {
+
+    .heart-wrap {
+        width: min(65vw, 340px);
+    }
+
+    .bottom-text {
+        bottom: 5%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .heart-wrap,
+    .heart-path,
+    .heart-trail,
+    .heart-text,
+    .heart-text-shadow,
+    .bottom-text,
+    .particle {
+        animation-duration: 20s;
+    }
+}
+
+/* SEMBUNYIKAN SEMUA ANIMASI SEBELUM DIJAWAB */
+
+/* INTRO SCREEN */
+
+.intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+
+    background: radial-gradient(
+        ellipse at center,
+        #200b22,
+        #100611 60%,
+        #050208
+    );
+
+    transition: opacity .8s ease, visibility .8s ease;
+}
+
+.intro-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.intro-title {
+    color: #ff8acb;
+    font-size: clamp(23px, 6vw, 32px);
+    text-shadow: 0 0 15px #ff168e;
+    margin-bottom: 25px;
+}
+
+.intro-message {
+    color: #ffc2e6;
+    font-size: 15px;
+    line-height: 1.8;
+
+    width: 100%;
+    max-width: 320px;
+    min-height: 110px;
+
+    text-align: center;
+    margin: 0 auto 25px;
+
+    white-space: pre-wrap;
+}
+
+#nextButton {
+    padding: 13px 35px;
+    border-radius: 30px;
+    border: 1px solid #ff8acb;
+    background: #ff168e;
+    color: white;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff168e;
+    transition: .3s;
+}
+
+#nextButton:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px #ff168e;
+}
+
+/* SEMBUNYIKAN ANIMASI SEBELUM NEXT */
+
+.scene {
+    opacity: 0;
+    transition: opacity .8s ease;
+}
+
+body.started .scene {
+    opacity: 1;
+}
+
+body:not(.started) .heart-wrap,
+body:not(.started) .heart-path,
+body:not(.started) .heart-trail,
+body:not(.started) .heart-photo,
+body:not(.started) .heart-text,
+body:not(.started) .heart-text-shadow,
+body:not(.started) .bottom-text {
+    animation-play-state: paused;
+}
+
+  /* TYPING EFFECT */
+
+.intro-message {
+    color: #ffc2e6;
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 320px;
+    min-height: 110px;
+    margin-bottom: 25px;
+}
+
+.cursor {
+    color: #ff168e;
+    font-weight: bold;
+    animation: blinkCursor .7s infinite;
+}
+
+@keyframes blinkCursor {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* TOMBOL MUNCUL */
+
+#nextButton {
+    animation: buttonAppear .8s ease forwards;
+}
+
+@keyframes buttonAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+  
+</style>
+</head>
+
+<body>
+
+
+<div class="background-glow"></div>
+
+<!-- INTRO SCREEN -->
+
+<div class="intro-screen" id="introScreen">
+
+    <h1 class="intro-title">
+       Alasan
+    </h1>
+
+    <p class="intro-message">
+        <span id="typingMessage"></span><span class="cursor">|</span>
+    </p>
+
+    <button id="nextButton" style="display:none;">
+        NEXT →
+    </button>
+
+</div>
+
+<div class="scene">
+
+<svg class="heart-wrap"
+     viewBox="0 0 500 440"
+     xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+
+    <!-- PINK GRADIENT -->
+
+    <linearGradient id="pink"
+        x1="0%" y1="0%"
+        x2="100%" y2="100%">
+
+        <stop offset="0%" stop-color="#fff"/>
+        <stop offset="30%" stop-color="#ffc2e6"/>
+        <stop offset="65%" stop-color="#ff58b5"/>
+        <stop offset="100%" stop-color="#ff008c"/>
+
+    </linearGradient>
+
+    <!-- NEON GLOW -->
+
+    <filter id="glow"
+        x="-100%" y="-100%"
+        width="300%" height="300%">
+
+        <feGaussianBlur
+            stdDeviation="3"
+            result="blur"/>
+
+        <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+
+    </filter>
+
+    <filter id="strongGlow"
+        x="-100%" y="-100%"
+        width="300%" height="300%">
+
+        <feGaussianBlur
+            stdDeviation="6"
+            result="blur"/>
+
+        <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+
+    </filter>
+
+</defs>
+
+  <clipPath id="heartClip">
+    <path d="
+        M250 390
+        C210 350 55 235 55 140
+        C55 55 160 25 250 125
+        C340 25 445 55 445 140
+        C445 235 290 350 250 390
+        Z
+    "/>
+  </clipPath>
+
+<!-- HEART SHAPE -->
+
+<path id="heartPath"
+    pathLength="1000"
+    d="
+    M250 390
+    C210 350 55 235 55 140
+    C55 55 160 25 250 125
+    C340 25 445 55 445 140
+    C445 235 290 350 250 390
+    "
+    fill="none"/>
+
+
+  <image
+    href="foto1.jpg"
+    x="55"
+    y="25"
+    width="390"
+    height="1100"
+    preserveAspectRatio="xMidYMid slice"
+    clip-path="url(#heartClip)"
+    class="heart-photo"
+/>
+
+<!-- MAIN DRAW -->
+
+<use href="#heartPath"
+     class="heart-path"/>
+
+<!-- LIGHT TRAIL -->
+
+<use href="#heartPath"
+     class="heart-trail"/>
+
+<!-- 3D SHADOW TEXT -->
+
+<g transform="translate(-8 13)">
+
+    <text class="heart-text-shadow">
+
+        <textPath href="#heartPath">
+            
+        </textPath>
+
+    </text>
+
+</g>
+
+<!-- MAIN TEXT -->
+
+<text class="heart-text"
+      style="fill:url(#pink)">
+
+    <textPath href="#heartPath">
+        
+    </textPath>
+
+</text>
+
+</svg>
+
+</div>
+
+<!-- BOTTOM MESSAGE -->
+
+<div class="bottom-text">
+    I LOVE YOU ❤️
+</div>
+
+<script>
+// CREATE PINK PARTICLES
+
+const particleCount = 42;
+
+for (let i = 0; i < particleCount; i++) {
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    const size = Math.random() * 5 + 2;
+
+    particle.style.width = size + "px";
+    particle.style.height = size + "px";
+
+    particle.style.left = Math.random() * 100 + "vw";
+    particle.style.top = Math.random() * 100 + "vh";
+
+    particle.style.animationDuration =
+        (4 + Math.random() * 7) + "s";
+
+    particle.style.animationDelay =
+        (-Math.random() * 10) + "s";
+
+    document.body.appendChild(particle);
+}
+
+
+// TYPING MESSAGE
+
+const message = `
+Da
+
+Asline nyong arep ngomong kiye tapi isin,ngapurane nek nyong ngomone lewat kaya kiye tapi mungkin kiye alasane.
+
+karepmu sih arep jawab apa.
+
+nyong be ora ngerti kiye rasane apa tapi nyong pengin ndeleng kowe seneng tok.`;
+
+const typingElement = document.getElementById("typingMessage");
+const nextButton = document.getElementById("nextButton");
+const introScreen = document.getElementById("introScreen");
+const cursor = document.querySelector(".cursor");
+
+let charIndex = 0;
+
+function typeMessage() {
+
+    if (charIndex < message.length) {
+
+        typingElement.textContent += message.charAt(charIndex);
+
+        charIndex++;
+
+        setTimeout(typeMessage, 65);
+
+    } else {
+
+        // Sembunyikan kursor
+        cursor.style.display = "none";
+
+        // Tampilkan tombol NEXT
+        nextButton.style.display = "block";
+
+    }
+
+}
+
+// Mulai mengetik otomatis
+typeMessage();
+
+
+// TOMBOL NEXT
+
+nextButton.addEventListener("click", function() {
+
+    // Mulai animasi hati
+    document.body.classList.add("started");
+
+    // Hilangkan halaman pembuka
+    introScreen.classList.add("hide");
+
+    // Hapus intro setelah transisi
+    setTimeout(() => {
+        introScreen.style.display = "none";
+    }, 800);
+
+});
+</script>
+
+
+</body>
+</html>
